@@ -24,7 +24,7 @@ def home():
 @app.route("/add", methods=["GET", "POST"])
 def add():
     if request.method == "POST":
-        # CREATE
+        # CREATE NEW BOOK ENTRY
         with app.app_context():
             new_book = Books(title=request.form["title"], author=request.form["author"],
                              rating=int(request.form["rating"]))
@@ -37,7 +37,7 @@ def add():
 @app.route("/edit", methods=["GET", "POST"])
 def edit():
     if request.method == "POST":
-        # UPDATE RECORD
+        # UPDATE BOOK RATING
         book_id = request.form["id"]
         book_to_update = db.get_or_404(Books, book_id)
         book_to_update.rating = request.form["rating"]
@@ -48,6 +48,14 @@ def edit():
     return render_template("edit_rating.html", book=book_selected)
 
 
+@app.route("/delete")
+def delete_book():
+    # DELETE BOOK
+    book_id = request.args.get("id")
+    book_to_delete = db.get_or_404(Books, book_id)
+    db.session.delete(book_to_delete)
+    db.session.commit()
+    return redirect(url_for("home"))
 
 
 if __name__ == "__main__":
