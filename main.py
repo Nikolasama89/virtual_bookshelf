@@ -2,9 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from db import db, Books
 
 
-
-# todo: Add a Delete Anchor Tag to each book listing <li>. When clicked it should delete the book from the database and redirect back to the home page. e.g.
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///books.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
